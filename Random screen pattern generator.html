@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>RSPG</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+        <script>
+            var svgNS = "http://www.w3.org/2000/svg";  
+            var TOTAL = 5;
+            const DIST ="200"
+
+            document.addEventListener('DOMContentLoaded', () => {
+                canvas = document.getElementById("canvas");                
+            });
+
+            /* Gets called when the user updates the total lines value */
+            function updateTotal(){
+                TOTAL = document.getElementById('lines').value;
+                if(TOTAL == NaN){
+                    TOTAL = 5;
+                }
+                else{
+                    TOTAL++;
+                }
+            }
+
+            /**
+             * Generates a new pattern with min(TOTAL, maximum possible) number of lines
+            */
+            function generateNew() {
+                // Remove all the previous ones
+                line = document.querySelector('.line');
+                while(line){
+                    line.remove();
+                    line = document.querySelector('.line');
+                }
+                
+                X = []; // To hold the x values of the points
+                Y = []; // To hold the y values of the points
+                var set = new Set(); // To check which points are already covered
+                var points = 0; // Counts how many points were adctually inserted
+
+                // Get the random points
+                for(i=0; i<TOTAL; i++){
+                    // If all the points are already covered
+                    if(set.size == 9){                        
+                        break;
+                    }
+
+                    // Get random values
+                    x = random();
+                    y = random();
+
+                    // If these values are already covered then just continue
+                    if(set.has(x*10 + y)){
+                        i--;
+                        continue;
+                    }
+                    set.add(x*10 + y); // Add to the already covered values
+
+                    // The points which lie between this and the previous point are also to be covered
+                    if(i>0){
+                        for(x2=1; x2<=3; x2++){
+                            for(y2=1; y2<=3; y2++){
+                                if((y-Y[i-1]) / (x-X[i-1]) === (y2-Y[i-1]) / (x2-X[i-1])){
+                                    set.add(x2*10 + y2);
+                                }
+                            }
+                        }
+                    }
+
+                    // Push the point in the array
+                    X.push(x * DIST);
+                    Y.push(y * DIST);
+                    points++; // Increment the number of points
+                }
+
+                // Draw the points
+                for(i=0; i<points-1; i++){
+                    createLine(X[i], Y[i], X[i+1], Y[i+1]);
+                }
+                
+            }
+
+            /* Gives a random number in the range [1, 3] */
+            function random(){
+                return Math.floor((Math.random() * 10) % 3 + 1);
+            }
+
+            /* Creates the line */
+            function createLine(x1, y1, x2, y2){
+                var line = document.createElementNS(svgNS, "line"); //to create a circle. for rectangle use "rectangle"
+                line.setAttributeNS(null, "class","line");
+                line.setAttributeNS(null, "x1", x1);
+                line.setAttributeNS(null, "y1", y1);
+                line.setAttributeNS(null, "x2", x2);
+                line.setAttributeNS(null, "y2", y2);
+
+                line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:5");
+
+                canvas.appendChild(line);
+            } 
+
+        </script>
+    </head>
+
+    <body>
+        <h1>Random Screen Pattern Generator (RSPG)</h1>
+        Lines:
+        <input id="lines" onchange="updateTotal()">
+        <button id="gen" onclick="generateNew()" style="height:80px; width:150px; margin:30px; margin-bottom:0px; font-size:large">Generate</button>
+        <br>
+        
+        <svg width="800" height="800" id="canvas" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <circle cx="200" cy="200" r="10" ></circle>
+            <circle cx="400" cy="200" r="10" ></circle>
+            <circle cx="600" cy="200" r="10" ></circle>
+
+            <circle cx="200" cy="400" r="10" ></circle>
+            <circle cx="400" cy="400" r="10" ></circle>
+            <circle cx="600" cy="400" r="10" ></circle>
+
+            <circle cx="200" cy="600" r="10" ></circle>
+            <circle cx="400" cy="600" r="10" ></circle>
+            <circle cx="600" cy="600" r="10" ></circle>    
+            
+        </svg>
+    </body>
+</html>
