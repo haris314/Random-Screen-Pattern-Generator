@@ -63,7 +63,7 @@
                         y1 = Math.min(Y[i-1], y);
                         y2 = Math.max(Y[i-1], y);
                         
-                        console.log(x1, x2, y1, y2);
+                        // console.log(x1, x2, y1, y2);
                         // Vertical lines
                         if(x1 === x2){
                             if((y1 === 1) && (y2 === 3)){
@@ -83,7 +83,7 @@
                             set.add(2*10 + 2);
                         }
                     }
-                    console.log(`point is ${x}, ${y} and set is ${printSet(set)}`);
+                    // console.log(`point is ${x}, ${y} and set is ${printSet(set)}`);
 
                     // Push the point in the array
                     X.push(x);
@@ -126,7 +126,7 @@
                 stroke-width: 5px;
                 stroke-dasharray: 4000;
                 stroke-dashoffset: 4000;
-                animation: draw 3s linear forwards;
+                animation: draw 4s linear forwards;
             }
             @keyframes draw {
                 to{
@@ -138,25 +138,27 @@
     </head>
 
     <body>
-        <h1>Random Screen Pattern Generator (RSPG)</h1>
-        Lines:
-        <input id="lines" onchange="updateTotal()">
-        <button id="gen" onclick="generateNew()" style="height:80px; width:150px; margin:30px; margin-bottom:0px; font-size:large">Generate</button>
-        <br>
-        
-        <svg width="800" height="800" id="canvas" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <circle cx="200" cy="200" r="10" ></circle>
-            <circle cx="400" cy="200" r="10" ></circle>
-            <circle cx="600" cy="200" r="10" ></circle>
-
-            <circle cx="200" cy="400" r="10" ></circle>
-            <circle cx="400" cy="400" r="10" ></circle>
-            <circle cx="600" cy="400" r="10" ></circle>
-
-            <circle cx="200" cy="600" r="10" ></circle>
-            <circle cx="400" cy="600" r="10" ></circle>
-            <circle cx="600" cy="600" r="10" ></circle>    
+        <div style="margin-left:auto; margin-right:auto; width:80%; text-align: center;;">
+            <h1>Random Screen Pattern Generator (RSPG)</h1>
+            <input id="lines" onchange="updateTotal()" placeholder="How many lines?">
+            <br>
+            <button id="gen" onclick="generateNew()" style="height:80px; width:150px; margin:30px; margin-bottom:0px; font-size:large">Generate</button>
+            <br>
             
-        </svg>
+            <svg width="800" height="800" id="canvas" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+                <circle cx="200" cy="200" r="10" ></circle>
+                <circle cx="400" cy="200" r="10" ></circle>
+                <circle cx="600" cy="200" r="10" ></circle>
+
+                <circle cx="200" cy="400" r="10" ></circle>
+                <circle cx="400" cy="400" r="10" ></circle>
+                <circle cx="600" cy="400" r="10" ></circle>
+
+                <circle cx="200" cy="600" r="10" ></circle>
+                <circle cx="400" cy="600" r="10" ></circle>
+                <circle cx="600" cy="600" r="10" ></circle>    
+                
+            </svg>
+        </div>
     </body>
 </html>
